@@ -455,8 +455,8 @@ public:
 	BOOL m_bEngDualTest;
 	//CString m_sItsCode;
 	//CString m_sProcessNum;//m_sLotNum, 
-	//CString m_sModelUp, m_sLayerUp;
-	//CString m_sLayerDn; //m_sModelDn, 
+	CString m_sModelUp, m_sLayerUp;
+	CString m_sLayerDn; //m_sModelDn, 
 	int m_nWritedItsSerial;
 
 	BOOL MakeLayerMappingHeader();
@@ -513,7 +513,9 @@ public:
 #endif
 
 public:
+	BOOL Is3Layer(CString sModel);
 	BOOL Is3LayerInner(CString sModel);
+	BOOL Is3LayerOutter(CString sModel);
 
 protected:
 

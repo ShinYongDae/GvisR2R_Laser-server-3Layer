@@ -482,7 +482,7 @@ void CEngrave::OnTimer(UINT_PTR nIDEvent)
 void CEngrave::GetSysSignal(SOCKET_DATA SockData)
 {
 	GetOpInfo(SockData);
-	//GetInfo(SockData);
+	GetInfo(SockData);
 	//GetEngInfo(SockData);
 
 	//GetSignalDisp(SockData);
@@ -1728,7 +1728,7 @@ void CEngrave::GetSignalMyMsg(SOCKET_DATA SockData)
 void CEngrave::GetSysData(SOCKET_DATA SockData)
 {
 	GetOpInfo(SockData);
-	//GetInfo(SockData);
+	GetInfo(SockData);
 	//GetTotRatio(SockData);
 	//GetStTime(SockData);
 	//GetRunTime(SockData);
@@ -2125,151 +2125,159 @@ void CEngrave::GetOpInfo(SOCKET_DATA SockData)
 	}
 }
 
-//void CEngrave::GetInfo(SOCKET_DATA SockData)
-//{
-//	int nCmdCode = SockData.nCmdCode;
-//	int nMsgId = SockData.nMsgID;
-//
-//	//m_bGetInfo = FALSE;
-//	if (nCmdCode == _SetSig)
-//	{
-//		switch (nMsgId)
-//		{
-//		case _SigInx::_TempPause:
-//			//m_bRcvSig[_SigInx::_TempPause] = TRUE;
-//			if (pDoc->WorkingInfo.LastJob.bTempPause != (SockData.nData1 > 0) ? TRUE : FALSE)
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.bTempPause = (SockData.nData1 > 0) ? TRUE : FALSE;
-//				//pView->m_bRcvSig[_SigInx::_TempPause] = TRUE;
-//			}
-//			break;
-//		}
-//	}
-//	else if (nCmdCode == _SetData)
-//	{
-//		switch (nMsgId)
-//		{
-//		case _ItemInx::_OpName:
-//			if (pDoc->WorkingInfo.LastJob.sSelUserName != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sSelUserName = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_ModelUpName:
-//			if (pDoc->WorkingInfo.LastJob.sModelUp != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sModelUp = CharToString(SockData.strData);
-//				//pView->m_bLoadMstInfo = TRUE;
-//			}
-//			break;
-//		//case _ItemInx::_ModelDnName:
-//		//	if (pDoc->WorkingInfo.LastJob.sModelDn != CharToString(SockData.strData))
-//		//	{
-//		//		m_bGetInfo = TRUE;
-//		//		pDoc->WorkingInfo.LastJob.sModelDn = CharToString(SockData.strData);
-//		//		//pView->m_bLoadMstInfo = TRUE;
-//		//	}
-//		//	break;
-//		case _ItemInx::_LotUpName:
-//			if (pDoc->WorkingInfo.LastJob.sLotUp != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLotUp = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_LotDnName:
-//			if (pDoc->WorkingInfo.LastJob.sLotDn != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLotDn = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_LayerUpName:
-//			if (pDoc->WorkingInfo.LastJob.sLayerUp != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLayerUp = CharToString(SockData.strData);
-//				if(!pDoc->WorkingInfo.LastJob.bDualTest)
-//					pView->m_bLoadMstInfo = TRUE;
-//			}
-//			break;
-//		case _ItemInx::_LayerDnName:
-//			if (pDoc->WorkingInfo.LastJob.sLayerDn != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLayerDn = CharToString(SockData.strData);
-//				if(pDoc->WorkingInfo.LastJob.bDualTest)
-//					pView->m_bLoadMstInfo = TRUE;
-//			}
-//			break;
-//		case _ItemInx::_LoadMstInfo:
-//			pView->m_bLoadMstInfo = TRUE;
-//			pDoc->m_bLoadMstInfo[0] = TRUE;
-//			pDoc->m_bLoadMstInfo[1] = TRUE;
-//			break;
-//		case _ItemInx::_TotReelLen:
-//			if (pDoc->WorkingInfo.LastJob.sReelTotLen != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sReelTotLen = CharToString(SockData.strData);
-//				pDoc->WorkingInfo.Lot.sTotalReelDist = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_PartVel:
-//			if (pDoc->WorkingInfo.LastJob.sPartialSpd != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sPartialSpd = CharToString(SockData.strData);
-//
-//				::WritePrivateProfileString(_T("Last Job"), _T("Partial Speed"), pDoc->WorkingInfo.LastJob.sPartialSpd, PATH_WORKING_INFO);
-//			}
-//			break;
-//		case _ItemInx::_TempStopLen:
-//			if (pDoc->WorkingInfo.LastJob.sTempPauseLen != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sTempPauseLen = CharToString(SockData.strData);
-//				pDoc->WorkingInfo.Lot.sStopDist = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_LotCutLen:
-//			if (pDoc->WorkingInfo.LastJob.sLotSepLen != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLotSepLen = CharToString(SockData.strData);
-//				pDoc->WorkingInfo.Lot.sSeparateDist = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_LotCutPosLen:
-//			if (pDoc->WorkingInfo.LastJob.sLotCutPosLen != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLotCutPosLen = CharToString(SockData.strData);
-//				pDoc->WorkingInfo.Lot.sCuttingDist = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_LotSerial:
-//			if (pDoc->WorkingInfo.LastJob.sLotSerial != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sLotSerial = CharToString(SockData.strData);
-//			}
-//			break;
-//		case _ItemInx::_MkVerfyLen:
-//			if (pDoc->WorkingInfo.LastJob.sVerifyLen != CharToString(SockData.strData))
-//			{
-//				m_bGetInfo = TRUE;
-//				pDoc->WorkingInfo.LastJob.sVerifyLen = CharToString(SockData.strData);
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//}
+void CEngrave::GetInfo(SOCKET_DATA SockData)
+{
+	int nCmdCode = SockData.nCmdCode;
+	int nMsgId = SockData.nMsgID;
+
+	//m_bGetInfo = FALSE;
+	if (nCmdCode == _SetSig)
+	{
+		switch (nMsgId)
+		{
+		case _SigInx::_TempPause:
+			//m_bRcvSig[_SigInx::_TempPause] = TRUE;
+			if (pDoc->WorkingInfo.LastJob.bTempPause != (SockData.nData1 > 0) ? TRUE : FALSE)
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.bTempPause = (SockData.nData1 > 0) ? TRUE : FALSE;
+				//pView->m_bRcvSig[_SigInx::_TempPause] = TRUE;
+			}
+			break;
+		}
+	}
+	else if (nCmdCode == _SetData)
+	{
+		switch (nMsgId)
+		{
+		case _ItemInx::_OpName:
+			if (pDoc->WorkingInfo.LastJob.sSelUserName != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sSelUserName = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_ModelUpName:
+			if (pDoc->WorkingInfo.LastJob.sModelUp != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sModelUp = CharToString(SockData.strData);
+				//pView->m_bLoadMstInfo = TRUE;
+			}
+			break;
+		//case _ItemInx::_ModelDnName:
+		//	if (pDoc->WorkingInfo.LastJob.sModelDn != CharToString(SockData.strData))
+		//	{
+		//		m_bGetInfo = TRUE;
+		//		pDoc->WorkingInfo.LastJob.sModelDn = CharToString(SockData.strData);
+		//		//pView->m_bLoadMstInfo = TRUE;
+		//	}
+		//	break;
+		case _ItemInx::_LotUpName:
+			if (pDoc->WorkingInfo.LastJob.sLotUp != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLotUp = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_LotDnName:
+			if (pDoc->WorkingInfo.LastJob.sLotDn != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLotDn = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_LayerUpName:
+			if (pDoc->WorkingInfo.LastJob.sLayerUp != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLayerUp = CharToString(SockData.strData);
+				if (!pDoc->WorkingInfo.LastJob.bDualTest)
+				{
+					pView->m_bLoadMstInfo = TRUE;
+					pDoc->m_bLoadMstInfo[0] = TRUE;
+					pDoc->m_bLoadMstInfo[1] = TRUE;
+				}
+			}
+			break;
+		case _ItemInx::_LayerDnName:
+			if (pDoc->WorkingInfo.LastJob.sLayerDn != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLayerDn = CharToString(SockData.strData);
+				if (pDoc->WorkingInfo.LastJob.bDualTest)
+				{
+					pView->m_bLoadMstInfo = TRUE;
+					pDoc->m_bLoadMstInfo[0] = TRUE;
+					pDoc->m_bLoadMstInfo[1] = TRUE;
+				}
+			}
+			break;
+		case _ItemInx::_LoadMstInfo:
+			pView->m_bLoadMstInfo = TRUE;
+			pDoc->m_bLoadMstInfo[0] = TRUE;
+			pDoc->m_bLoadMstInfo[1] = TRUE;
+			break;
+		case _ItemInx::_TotReelLen:
+			if (pDoc->WorkingInfo.LastJob.sReelTotLen != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sReelTotLen = CharToString(SockData.strData);
+				pDoc->WorkingInfo.Lot.sTotalReelDist = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_PartVel:
+			if (pDoc->WorkingInfo.LastJob.sPartialSpd != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sPartialSpd = CharToString(SockData.strData);
+
+				::WritePrivateProfileString(_T("Last Job"), _T("Partial Speed"), pDoc->WorkingInfo.LastJob.sPartialSpd, PATH_WORKING_INFO);
+			}
+			break;
+		case _ItemInx::_TempStopLen:
+			if (pDoc->WorkingInfo.LastJob.sTempPauseLen != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sTempPauseLen = CharToString(SockData.strData);
+				pDoc->WorkingInfo.Lot.sStopDist = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_LotCutLen:
+			if (pDoc->WorkingInfo.LastJob.sLotSepLen != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLotSepLen = CharToString(SockData.strData);
+				pDoc->WorkingInfo.Lot.sSeparateDist = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_LotCutPosLen:
+			if (pDoc->WorkingInfo.LastJob.sLotCutPosLen != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLotCutPosLen = CharToString(SockData.strData);
+				pDoc->WorkingInfo.Lot.sCuttingDist = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_LotSerial:
+			if (pDoc->WorkingInfo.LastJob.sLotSerial != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sLotSerial = CharToString(SockData.strData);
+			}
+			break;
+		case _ItemInx::_MkVerfyLen:
+			if (pDoc->WorkingInfo.LastJob.sVerifyLen != CharToString(SockData.strData))
+			{
+				m_bGetInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sVerifyLen = CharToString(SockData.strData);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
 
 
 //void CEngrave::GetUpdateWorking(SOCKET_DATA SockData)
@@ -5093,20 +5101,20 @@ void CEngrave::SetEngItsDnCode()
 }
 
 // SetInfo()
-//void CEngrave::SetModelUpName()
-//{
-//	if (!pDoc)
-//		return;
-//
-//	SOCKET_DATA SocketData;
-//	SocketData.nCmdCode = _SetData;
-//	char cData[BUFFER_DATA_SIZE];
-//
-//	SocketData.nMsgID = _stItemInx::_ModelUpName;
-//	StringToChar(pDoc->WorkingInfo.LastJob.sModelUp, cData);
-//	sprintf(SocketData.strData, "%s", cData);
-//	SendCommand(SocketData);
-//}
+void CEngrave::SetModelUpName()
+{
+	if (!pDoc)
+		return;
+
+	SOCKET_DATA SocketData;
+	SocketData.nCmdCode = _SetData;
+	char cData[BUFFER_DATA_SIZE];
+
+	SocketData.nMsgID = _stItemInx::_ModelUpName;
+	StringToChar(pDoc->WorkingInfo.LastJob.sModelUp, cData);
+	sprintf(SocketData.strData, "%s", cData);
+	SendCommand(SocketData);
+}
 
 // void CEngrave::SetModelDnName()
 // {

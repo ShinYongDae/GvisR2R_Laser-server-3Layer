@@ -41,6 +41,7 @@ class CDlgInfo : public CDialog
 	void SetTwoMetal(BOOL bOn=TRUE);
 	void SetTestMode(int nMode);
 	void ShowDlg(int nID);
+	int GetTestMode();
 
 // Construction
 public:

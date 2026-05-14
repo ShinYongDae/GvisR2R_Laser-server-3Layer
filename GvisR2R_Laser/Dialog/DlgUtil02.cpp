@@ -113,10 +113,10 @@ void CDlgUtil02::AtDlgShow()
 	//m_sLotNum = pDoc->m_sLotNum;
 	//m_sProcessNum = pDoc->m_sProcessNum;
 
-	//pDoc->m_sModelUp = pDoc->WorkingInfo.LastJob.sModelUp;
+	pDoc->m_sModelUp = pDoc->WorkingInfo.LastJob.sModelUp;
 	//pDoc->m_sModelDn = pDoc->WorkingInfo.LastJob.sModelDn;
-	//pDoc->m_sLayerUp = pDoc->WorkingInfo.LastJob.sLayerUp;
-	//pDoc->m_sLayerDn = pDoc->WorkingInfo.LastJob.sLayerDn;
+	pDoc->m_sLayerUp = pDoc->WorkingInfo.LastJob.sLayerUp;
+	pDoc->m_sLayerDn = pDoc->WorkingInfo.LastJob.sLayerDn;
 
 	m_ModelComboUp.SetWindowText(pDoc->WorkingInfo.LastJob.sModelUp);
 	m_LayerComboUp.SetWindowText(pDoc->WorkingInfo.LastJob.sLayerUp);
@@ -261,28 +261,28 @@ void CDlgUtil02::DoConfirm()
 */
 	//pView->m_bLoadMstInfo = FALSE;
 
-	//if ((pDoc->WorkingInfo.LastJob.sModelUp != pDoc->m_sModelUp) && !pDoc->m_sModelUp.IsEmpty())
-	//{
-	//	pDoc->WorkingInfo.LastJob.sModelUp = pDoc->m_sModelUp;
-	//	//pView->m_bLoadMstInfo = TRUE;
-	//}
+	if ((pDoc->WorkingInfo.LastJob.sModelUp != pDoc->m_sModelUp) && !pDoc->m_sModelUp.IsEmpty())
+	{
+		pDoc->WorkingInfo.LastJob.sModelUp = pDoc->m_sModelUp;
+		//pView->m_bLoadMstInfo = TRUE;
+	}
 	//if ((pDoc->WorkingInfo.LastJob.sModelDn != pDoc->m_sModelDn) && !pDoc->m_sModelDn.IsEmpty())
 	//{
 	//	pDoc->WorkingInfo.LastJob.sModelDn = pDoc->m_sModelDn;
 	//	pView->m_bLoadMstInfo = TRUE;
 	//}
-	//if ((pDoc->WorkingInfo.LastJob.sLayerUp != pDoc->m_sLayerUp) && !pDoc->m_sLayerUp.IsEmpty())
-	//{
-	//	pDoc->WorkingInfo.LastJob.sLayerUp = pDoc->m_sLayerUp;
-	//	pDoc->m_bLoadMstInfo[0] = TRUE;
-	//	pView->m_bLoadMstInfo = TRUE;
-	//}
-	//if ((pDoc->WorkingInfo.LastJob.sLayerDn != pDoc->m_sLayerDn) && !pDoc->m_sLayerDn.IsEmpty())
-	//{
-	//	pDoc->WorkingInfo.LastJob.sLayerDn = pDoc->m_sLayerDn;
-	//	pDoc->m_bLoadMstInfo[1] = TRUE;
-	//	pView->m_bLoadMstInfo = TRUE;
-	//}
+	if ((pDoc->WorkingInfo.LastJob.sLayerUp != pDoc->m_sLayerUp) && !pDoc->m_sLayerUp.IsEmpty())
+	{
+		pDoc->WorkingInfo.LastJob.sLayerUp = pDoc->m_sLayerUp;
+		pDoc->m_bLoadMstInfo[0] = TRUE;
+		pView->m_bLoadMstInfo = TRUE;
+	}
+	if ((pDoc->WorkingInfo.LastJob.sLayerDn != pDoc->m_sLayerDn) && !pDoc->m_sLayerDn.IsEmpty())
+	{
+		pDoc->WorkingInfo.LastJob.sLayerDn = pDoc->m_sLayerDn;
+		pDoc->m_bLoadMstInfo[1] = TRUE;
+		pView->m_bLoadMstInfo = TRUE;
+	}
 	//if ((pDoc->WorkingInfo.LastJob.sLotUp != pDoc->m_sLotNum) && !pDoc->m_sLayerUp.IsEmpty())
 	//{
 	//	pDoc->WorkingInfo.LastJob.sLotUp = pDoc->m_sLotNum;
@@ -492,7 +492,7 @@ BOOL CDlgUtil02::Is3LayerInner(CString sModel)
 	CString sParsingChar9;
 	sParsingChar9 = sModel.Mid(8, 1);
 	sParsingChar9.MakeUpper();
-	if (sParsingChar9 == "C")
+	if (sParsingChar9 == "C" && pDoc->GetTestMode() == MODE_INNER)
 		return TRUE;
 	return FALSE;
 }

@@ -99,7 +99,7 @@ public:
 	// GetSysData
 	void GetSysData(SOCKET_DATA SockData);
 	void GetOpInfo(SOCKET_DATA SockData);
-	//void GetInfo(SOCKET_DATA SockData);
+	void GetInfo(SOCKET_DATA SockData);
 	//void GetTotRatio(SOCKET_DATA SockData);
 	//void GetStTime(SOCKET_DATA SockData);
 	//void GetRunTime(SOCKET_DATA SockData);
@@ -190,7 +190,7 @@ public:
 	void SetEngItsDnCode();
 
 	// SetInfo()
-	//void SetModelUpName();
+	void SetModelUpName();
 	////void SetModelDnName();
 	//void SetLotUpName();
 	//void SetLotDnName();

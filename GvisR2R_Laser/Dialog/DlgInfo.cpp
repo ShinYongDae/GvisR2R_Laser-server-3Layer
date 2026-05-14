@@ -714,7 +714,7 @@ void CDlgInfo::Disp()
 	else
 		myBtn[22].SetCheck(FALSE);
 
-	switch (pDoc->WorkingInfo.LastJob.nTestMode) // GetTestMode()
+	switch (GetTestMode())
 	{
 	case MODE_NONE:		// 0 
 		myBtn[23].SetCheck(FALSE); // IDC_CHK_USE_AOI_INNER
@@ -736,11 +736,19 @@ void CDlgInfo::Disp()
 		break;
 	}
 
-	//if (pDoc->WorkingInfo.System.bUse3Layer)
-	if(pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))
-		myBtn[27].SetCheck(TRUE);
-	else
+
+	if (GetTestMode() != MODE_INNER && GetTestMode() != MODE_OUTER)
 		myBtn[27].SetCheck(FALSE);
+	else
+	{
+		BOOL bIs3Layer = pDoc->Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp);
+		if (bIs3Layer)
+			myBtn[27].SetCheck(TRUE);
+		else
+			myBtn[27].SetCheck(FALSE);
+
+		pDoc->WorkingInfo.System.bUse3Layer = bIs3Layer;
+	}
 
 	DispDualTest();
 }
@@ -1560,7 +1568,7 @@ void CDlgInfo::ShowDlg(int nID)
 			GetDlgItem(IDC_STC_228)->SetWindowText(pDoc->WorkingInfo.LastJob.sEngItsDnCode); // IDC_ITS_EDIT pDoc->m_sItsCode
 		}
 
-		if (pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))
+		if (pDoc->Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp))
 		{
 			ChkUse3layer();
 		}
@@ -2032,8 +2040,14 @@ void CDlgInfo::DispDualTest()
 
 void CDlgInfo::OnBnClickedChkUse3layer()
 {
+	if (GetTestMode() != MODE_INNER && GetTestMode() != MODE_OUTER)
+	{
+		myBtn[27].SetCheck(FALSE);
+		return;
+	}
+
 	CString sData;
-	BOOL bOn = pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp);
+	BOOL bOn = pDoc->Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp);
 	myBtn[27].SetCheck(bOn);
 	//BOOL bOn = myBtn[27].GetCheck();
 }
@@ -2043,7 +2057,7 @@ void CDlgInfo::ChkUse3layer()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	CString sData;
 	//BOOL bOn = myBtn[27].GetCheck();
-	BOOL bOn = pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp);
+	BOOL bOn = pDoc->Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp);
 	if (bOn)
 	{
 		pDoc->WorkingInfo.System.bUse3Layer = TRUE;
@@ -2094,4 +2108,9 @@ void CDlgInfo::OnStnClickedStc228()
 	if (pView && pView->m_pEngrave)
 		pView->m_pEngrave->SetEngItsDnCode();	//_ItemInx::_EngItsCode
 #endif
+}
+
+int CDlgInfo::GetTestMode()
+{
+	return pDoc->GetTestMode();
 }

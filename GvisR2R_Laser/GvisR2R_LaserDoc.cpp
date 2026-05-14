@@ -27,7 +27,7 @@
 
 extern CMainFrame* pFrm;
 CGvisR2R_LaserDoc* pDoc;
-CString PATH_WORKING_INFO = _T("");
+CString PATH_WORKING_INFO = _T(""); // \\192.168.40.80\R2RSet\WorkingInfo.ini
 extern CGvisR2R_LaserView* pView;
 
 // CGvisR2R_LaserDoc
@@ -57,8 +57,8 @@ CGvisR2R_LaserDoc::CGvisR2R_LaserDoc()
 	//m_sItsCode = _T("");
 	//m_sLotNum = _T(""); 
 	//m_sProcessNum = _T("");
-	//m_sModelUp = _T(""); m_sLayerUp = _T("");
-	//m_sLayerDn = _T(""); // m_sModelDn = _T(""); 
+	m_sModelUp = _T(""); m_sLayerUp = _T("");
+	m_sLayerDn = _T(""); // m_sModelDn = _T(""); 
 
 	m_bBufEmpty[0] = FALSE; // Exist
 	m_bBufEmpty[1] = FALSE; // Exist
@@ -245,9 +245,9 @@ CGvisR2R_LaserDoc::CGvisR2R_LaserDoc()
 	//m_sItsCode = _T("");
 	//m_sLotNum = _T("");
 	//m_sProcessNum = _T("");
-	//m_sModelUp = _T("");
-	//m_sLayerUp = _T("");
-	//m_sLayerDn = _T("");
+	m_sModelUp = _T("");
+	m_sLayerUp = _T("");
+	m_sLayerDn = _T("");
 	m_nWritedItsSerial = 0;
 
 	SetCurrentInfoSignal(_SigInx::_MyMsgYes, FALSE);
@@ -1409,11 +1409,11 @@ BOOL CGvisR2R_LaserDoc::LoadWorkingInfo()
 
 
 	// [Last Job]
-	if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("ModelUp Name"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
+	if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("Model Name"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
 		WorkingInfo.LastJob.sModelUp = CString(szData);
 	else
 	{
-		if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("Model Name"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
+		if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("ModelUp Name"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
 			WorkingInfo.LastJob.sModelUp = CString(szData);
 		else
 		{
@@ -1438,13 +1438,8 @@ BOOL CGvisR2R_LaserDoc::LoadWorkingInfo()
 		WorkingInfo.LastJob.sLotUp = CString(szData);//m_sLotNum = 
 	else
 	{
-		//if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("Lot No"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
-		//	m_sLotNum = WorkingInfo.LastJob.sLotUp = WorkingInfo.LastJob.sLotDn = CString(szData);
-		//else
-		//{
-			AfxMessageBox(_T("Current LotUp이 설정되어 있지 않습니다."), MB_ICONWARNING | MB_OK);
-			WorkingInfo.LastJob.sLotUp = CString(_T(""));//m_sLotNum = 
-		//}
+		AfxMessageBox(_T("Current LotUp이 설정되어 있지 않습니다."), MB_ICONWARNING | MB_OK);
+		WorkingInfo.LastJob.sLotUp = CString(_T(""));//m_sLotNum = 
 	}
 
 	if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("LayerUp Name"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
@@ -1472,6 +1467,15 @@ BOOL CGvisR2R_LaserDoc::LoadWorkingInfo()
 
 	if (WorkingInfo.LastJob.bDualTest)
 	{
+
+		if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("LotDn No"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
+			WorkingInfo.LastJob.sLotDn = CString(szData);//m_sLotNum = 
+		else
+		{
+			AfxMessageBox(_T("Current LotDn이 설정되어 있지 않습니다."), MB_ICONWARNING | MB_OK);
+			WorkingInfo.LastJob.sLotDn = CString(_T(""));//m_sLotNum = 
+		}
+
 		if (0 < ::GetPrivateProfileString(_T("Last Job"), _T("LayerDn Name"), NULL, szData, sizeof(szData), sPath))//WorkingInfo.System.sPathEngCurrInfo))
 			WorkingInfo.LastJob.sLayerDn = CString(szData);
 		else
@@ -7172,6 +7176,9 @@ void CGvisR2R_LaserDoc::SetCurrentInfo()
 		sData = _T("0");//Is3LayerInner;
 		::WritePrivateProfileString(_T("Infomation"), _T("Is3LayerInner"), sData, sPath);
 	}
+
+	if(pView->m_pEngrave)
+		pView->m_pEngrave->SetModelUpName(); // _stItemInx::_ModelUpName
 }
 
 void CGvisR2R_LaserDoc::GetCurrentInfo()
@@ -11174,12 +11181,32 @@ void CGvisR2R_LaserDoc::SetSignalAoiDn()
 }
 
 
-BOOL CGvisR2R_LaserDoc::Is3LayerInner(CString sModel)
+BOOL CGvisR2R_LaserDoc::Is3Layer(CString sModel)
 {
 	CString sParsingChar9;
 	sParsingChar9 = sModel.Mid(8, 1);
 	sParsingChar9.MakeUpper();
 	if (sParsingChar9 == "C")
+		return TRUE;
+	return FALSE;
+}
+
+BOOL CGvisR2R_LaserDoc::Is3LayerInner(CString sModel)
+{
+	CString sParsingChar9;
+	sParsingChar9 = sModel.Mid(8, 1);
+	sParsingChar9.MakeUpper();
+	if (sParsingChar9 == "C" && GetTestMode() == MODE_INNER)
+		return TRUE;
+	return FALSE;
+}
+
+BOOL CGvisR2R_LaserDoc::Is3LayerOutter(CString sModel)
+{
+	CString sParsingChar9;
+	sParsingChar9 = sModel.Mid(8, 1);
+	sParsingChar9.MakeUpper();
+	if (sParsingChar9 == "C" && GetTestMode() == MODE_OUTER)
 		return TRUE;
 	return FALSE;
 }
