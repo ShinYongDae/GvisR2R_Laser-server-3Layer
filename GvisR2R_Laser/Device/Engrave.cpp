@@ -2104,22 +2104,22 @@ void CEngrave::GetOpInfo(SOCKET_DATA SockData)
 			}
 			break;
 		case _ItemInx::_EngItsUpCode:
-			if (pDoc->WorkingInfo.LastJob.sEngItsUpCode != CharToString(SockData.strData))
-			{
-				m_bGetOpInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sEngItsUpCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
-				pDoc->SetEngItsUpCode(pDoc->WorkingInfo.LastJob.sEngItsUpCode);
-				//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
-			}
+			//if (pDoc->WorkingInfo.LastJob.sEngItsUpCode != CharToString(SockData.strData))
+			//{
+			//	m_bGetOpInfo = TRUE;
+			//	pDoc->WorkingInfo.LastJob.sEngItsUpCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
+			//	pDoc->SetEngItsUpCode(pDoc->WorkingInfo.LastJob.sEngItsUpCode);
+			//	//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
+			//}
 			break;
 		case _ItemInx::_EngItsDnCode:
-			if (pDoc->WorkingInfo.LastJob.sEngItsDnCode != CharToString(SockData.strData))
-			{
-				m_bGetOpInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sEngItsDnCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
-				pDoc->SetEngItsDnCode(pDoc->WorkingInfo.LastJob.sEngItsDnCode);
-				//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
-			}
+			//if (pDoc->WorkingInfo.LastJob.sEngItsDnCode != CharToString(SockData.strData))
+			//{
+			//	m_bGetOpInfo = TRUE;
+			//	pDoc->WorkingInfo.LastJob.sEngItsDnCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
+			//	pDoc->SetEngItsDnCode(pDoc->WorkingInfo.LastJob.sEngItsDnCode);
+			//	//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
+			//}
 			break;
 		}
 	}

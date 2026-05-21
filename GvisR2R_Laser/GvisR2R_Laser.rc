@@ -128,10 +128,11 @@ CAPTION "GvisR2R_Laser 정보"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "GvisR2R_Laser, 버전 1.1",IDC_STATIC,42,14,114,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2026.05.20",IDC_STATIC,42,26,114,8
+    LTEXT           "Copyright (C) 2026.05.22",IDC_STATIC,42,26,114,8
     DEFPUSHBUTTON   "확인",IDOK,113,40,50,14,WS_GROUP
     LTEXT           "3Layer 개발",IDC_STATIC,7,37,104,8
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
+    LTEXT           "Its code 네트웤입력 차단",IDC_STATIC,7,46,104,8
 END
 
 IDD_GVISR2R_LASER_FORM DIALOGEX 0, 0, 723, 645
