@@ -2946,16 +2946,32 @@ void CDlgMenu01::ResetSerial()
 
 void CDlgMenu01::UpdateData()
 {
+	BOOL bIs3LayerInner = pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp);
+
 	CString sVal;
 	BOOL bDualTest = pDoc->WorkingInfo.LastJob.bDualTest;
 
-	myStcData[0].SetText(pDoc->WorkingInfo.LastJob.sSelUserName);	// 운용자
-	myStcData[1].SetText(pDoc->WorkingInfo.LastJob.sModelUp);		// 모델
-	myStcData[2].SetText(pDoc->WorkingInfo.LastJob.sLayerUp);		// 상면레이어
-	myStcData[3].SetText(pDoc->WorkingInfo.LastJob.sLotUp);			// 로트
+	myStcData[0].SetText(pDoc->WorkingInfo.LastJob.sSelUserName);			// 운용자
+	myStcData[1].SetText(pDoc->WorkingInfo.LastJob.sModelUp);				// 모델
+	myStcData[2].SetText(pDoc->WorkingInfo.LastJob.sLayerUp);				// 상면레이어
+	myStcData[3].SetText(pDoc->WorkingInfo.LastJob.sLotUp);					// 상면로트
+	if (pDoc->GetTestMode() != MODE_INNER && pDoc->GetTestMode() != MODE_OUTER && pDoc->GetTestMode() != MODE_LASER && pDoc->GetTestMode() != MODE_ITS)
+		myStcData[84].SetText(_T(""));										// 상면ItsCode
+	else
+		myStcData[84].SetText(pDoc->WorkingInfo.LastJob.sEngItsUpCode);		// 상면ItsCode
 	if(bDualTest)
 	{
-		myStcData[75].SetText(pDoc->WorkingInfo.LastJob.sLayerDn);		// 하면레이어
+		myStcData[75].SetText(pDoc->WorkingInfo.LastJob.sLayerDn);			// 하면레이어
+		if (bIs3LayerInner)
+		{
+			myStcData[85].SetText(pDoc->WorkingInfo.LastJob.sEngItsDnCode);	// 하면ItsCode
+			myStcData[86].SetText(pDoc->WorkingInfo.LastJob.sLotDn);		// 하면로트
+		}
+		else
+		{
+			myStcData[85].SetText(_T(""));									// 하면ItsCode
+			myStcData[86].SetText(_T(""));									// 하면로트
+		}
 	}
 	
 	double dTotLen = _tstof(pDoc->WorkingInfo.LastJob.sReelTotLen) * 1000.0;

@@ -31,7 +31,9 @@ public:
 
 	void ModifyModelComboData(CComboBox *pComboBox);
 	void ModifyLayerComboData(CComboBox *pComboBox, int nAoi);
+	BOOL Is3Layer(CString sModel);
 	BOOL Is3LayerInner(CString sModel);
+	BOOL Is3LayerOutter(CString sModel);
 	void Enable3LayerInner(BOOL bEnable=FALSE);
 
 

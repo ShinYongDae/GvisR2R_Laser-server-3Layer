@@ -7158,14 +7158,27 @@ void CGvisR2R_LaserDoc::SetCurrentInfo()
 		::WritePrivateProfileString(_T("Infomation"), _T("Current Layer Dn"), sData, sPath);
 	}
 
-	if (Is3LayerInner(WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
+	if (Is3Layer(WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
 	{
 		sData = WorkingInfo.LastJob.sLotDn;//m_sLotNum;
 		::WritePrivateProfileString(_T("Infomation"), _T("Current LotDn"), sData, sPath);
 		sData = WorkingInfo.LastJob.sEngItsDnCode;//m_sItsCode;
 		::WritePrivateProfileString(_T("Infomation"), _T("ItsDn Code"), sData, sPath);
-		sData = _T("1");//Is3LayerInner;
+
+		sData = _T("1");//Is3Layer
+		::WritePrivateProfileString(_T("Infomation"), _T("Is3Layer"), sData, sPath);
+
+		if(GetTestMode() == MODE_INNER)
+			sData = _T("1");//Is3LayerInner;
+		else
+			sData = _T("0");//Is3LayerInner;
 		::WritePrivateProfileString(_T("Infomation"), _T("Is3LayerInner"), sData, sPath);
+
+		if (GetTestMode() == MODE_OUTER)
+			sData = _T("1");//Is3LayerOutter;
+		else
+			sData = _T("0");//Is3LayerOutter;
+		::WritePrivateProfileString(_T("Infomation"), _T("Is3LayerOutter"), sData, sPath);
 	}
 	else
 	{
@@ -7174,7 +7187,9 @@ void CGvisR2R_LaserDoc::SetCurrentInfo()
 		sData = WorkingInfo.LastJob.sEngItsUpCode;//m_sItsCode;
 		::WritePrivateProfileString(_T("Infomation"), _T("ItsDn Code"), sData, sPath);
 		sData = _T("0");//Is3LayerInner;
+		::WritePrivateProfileString(_T("Infomation"), _T("Is3Layer"), sData, sPath);
 		::WritePrivateProfileString(_T("Infomation"), _T("Is3LayerInner"), sData, sPath);
+		::WritePrivateProfileString(_T("Infomation"), _T("Is3LayerOutter"), sData, sPath);
 	}
 
 	if(pView->m_pEngrave)
@@ -9009,7 +9024,7 @@ void CGvisR2R_LaserDoc::GetMkInfo()
 	if (0 < ::GetPrivateProfileString(_T("Signal"), _T("Use Dual AOI"), NULL, szData, sizeof(szData), sPath))
 		WorkingInfo.LastJob.bDualTest = (_ttoi(szData) > 0) ? TRUE : FALSE;
 
-	WorkingInfo.LastJob.nTestMode = MODE_NONE;
+	//WorkingInfo.LastJob.nTestMode = MODE_NONE;
 	if (0 < ::GetPrivateProfileString(_T("Signal"), _T("Inner Test On"), NULL, szData, sizeof(szData), sPath))
 	{
 		if ((_ttoi(szData) > 0) ? TRUE : FALSE)

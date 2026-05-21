@@ -93,8 +93,8 @@ public:
 	//void GetSignalUncoiler(SOCKET_DATA SockData);
 	void GetSignalEngraveAutoSequence(SOCKET_DATA SockData);
 	void GetSignalMyMsg(SOCKET_DATA SockData);
-	//void GetSignal2dEng(SOCKET_DATA SockData);
-	//void GetCurrentInfoSignal(SOCKET_DATA SockData);
+	void GetSignal2dEng(SOCKET_DATA SockData);
+	void GetCurrentInfoSignal(SOCKET_DATA SockData);
 
 	// GetSysData
 	void GetSysData(SOCKET_DATA SockData);
@@ -114,7 +114,7 @@ public:
 	//void GetMkInfoLf(SOCKET_DATA SockData);
 	//void GetMkInfoRt(SOCKET_DATA SockData);
 	//void GetAlarmMsg(SOCKET_DATA SockData);
-	//void GetMsgBox(SOCKET_DATA SockData);
+	void GetMsgBox(SOCKET_DATA SockData);
 
 	// SetSysSignal
 	//BOOL SetSysSignal();

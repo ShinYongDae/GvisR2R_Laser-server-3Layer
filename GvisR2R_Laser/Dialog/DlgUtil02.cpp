@@ -136,7 +136,7 @@ void CDlgUtil02::AtDlgShow()
 		m_LayerComboDn.SetWindowText(_T(""));
 	}
 
-	if (Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
+	if (Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
 	{
 		Enable3LayerInner(TRUE);
 		GetDlgItem(IDC_LOT_EDIT2)->SetWindowText(pDoc->WorkingInfo.LastJob.sLotDn);
@@ -217,7 +217,7 @@ void CDlgUtil02::DoConfirm()
 	GetDlgItem(IDC_ITS_EDIT)->GetWindowText(pDoc->WorkingInfo.LastJob.sEngItsUpCode);
 	GetDlgItem(IDC_EDIT_PROCESS_NUM)->GetWindowText(pDoc->WorkingInfo.LastJob.sProcessNum);
 
-	if (Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
+	if (Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
 	{
 		GetDlgItem(IDC_LOT_EDIT2)->GetWindowText(pDoc->WorkingInfo.LastJob.sLotDn);
 		GetDlgItem(IDC_ITS_EDIT2)->GetWindowText(pDoc->WorkingInfo.LastJob.sEngItsDnCode);
@@ -263,8 +263,10 @@ void CDlgUtil02::DoConfirm()
 
 	if ((pDoc->WorkingInfo.LastJob.sModelUp != pDoc->m_sModelUp) && !pDoc->m_sModelUp.IsEmpty())
 	{
-		pDoc->WorkingInfo.LastJob.sModelUp = pDoc->m_sModelUp;
-		//pView->m_bLoadMstInfo = TRUE;
+		pDoc->m_sModelUp = pDoc->WorkingInfo.LastJob.sModelUp;
+		pView->m_bLoadMstInfo = TRUE;
+		pDoc->m_bLoadMstInfo[0] = TRUE;
+		pDoc->m_bLoadMstInfo[1] = TRUE;
 	}
 	//if ((pDoc->WorkingInfo.LastJob.sModelDn != pDoc->m_sModelDn) && !pDoc->m_sModelDn.IsEmpty())
 	//{
@@ -273,13 +275,13 @@ void CDlgUtil02::DoConfirm()
 	//}
 	if ((pDoc->WorkingInfo.LastJob.sLayerUp != pDoc->m_sLayerUp) && !pDoc->m_sLayerUp.IsEmpty())
 	{
-		pDoc->WorkingInfo.LastJob.sLayerUp = pDoc->m_sLayerUp;
+		pDoc->m_sLayerUp = pDoc->WorkingInfo.LastJob.sLayerUp;
 		pDoc->m_bLoadMstInfo[0] = TRUE;
 		pView->m_bLoadMstInfo = TRUE;
 	}
 	if ((pDoc->WorkingInfo.LastJob.sLayerDn != pDoc->m_sLayerDn) && !pDoc->m_sLayerDn.IsEmpty())
 	{
-		pDoc->WorkingInfo.LastJob.sLayerDn = pDoc->m_sLayerDn;
+		pDoc->m_sLayerDn = pDoc->WorkingInfo.LastJob.sLayerDn;
 		pDoc->m_bLoadMstInfo[1] = TRUE;
 		pView->m_bLoadMstInfo = TRUE;
 	}
@@ -411,7 +413,7 @@ void CDlgUtil02::OnSelchangeModelComboUp()
 		return;
 
 	m_ModelComboUp.GetLBText(nIndex, pDoc->WorkingInfo.LastJob.sModelUp);//pDoc->m_sModelUp
-	if (Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
+	if (Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp))//pDoc->m_sModelUp
 	{
 		Enable3LayerInner(TRUE);
 		GetDlgItem(IDC_LOT_EDIT2)->SetWindowText(_T(""));
@@ -487,12 +489,32 @@ void CDlgUtil02::OnSelchangeLayerComboDn()
 	//UpdateData(FALSE);
 }
 
+BOOL CDlgUtil02::Is3Layer(CString sModel)
+{
+	CString sParsingChar9;
+	sParsingChar9 = sModel.Mid(8, 1);
+	sParsingChar9.MakeUpper();
+	if (sParsingChar9 == "C")
+		return TRUE;
+	return FALSE;
+}
+
 BOOL CDlgUtil02::Is3LayerInner(CString sModel)
 {
 	CString sParsingChar9;
 	sParsingChar9 = sModel.Mid(8, 1);
 	sParsingChar9.MakeUpper();
 	if (sParsingChar9 == "C" && pDoc->GetTestMode() == MODE_INNER)
+		return TRUE;
+	return FALSE;
+}
+
+BOOL CDlgUtil02::Is3LayerOutter(CString sModel)
+{
+	CString sParsingChar9;
+	sParsingChar9 = sModel.Mid(8, 1);
+	sParsingChar9.MakeUpper();
+	if (sParsingChar9 == "C" && pDoc->GetTestMode() == MODE_OUTER)
 		return TRUE;
 	return FALSE;
 }

@@ -501,8 +501,8 @@ void CEngrave::GetSysSignal(SOCKET_DATA SockData)
 	GetSignalEngraveAutoSequence(SockData);
 	//GetSignalMyMsg(SockData);
 
-	//GetSignal2dEng(SockData);
-	//GetCurrentInfoSignal(SockData);
+	GetSignal2dEng(SockData);
+	GetCurrentInfoSignal(SockData);
 }
 
 //void CEngrave::GetSignalDisp(SOCKET_DATA SockData)
@@ -1530,17 +1530,17 @@ void CEngrave::GetSignalEngraveAutoSequence(SOCKET_DATA SockData)
 	{
 		switch (nMsgId)
 		{
-//		case _SigInx::_EngAutoInit:
-//			//m_bRcvSig[_SigInx::_EngAutoInit] = TRUE;
-//			//pDoc->BtnStatus.EngAuto.Init = TRUE;
-//			pDoc->BtnStatus.EngAuto.Init = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			pView->EngAutoInit();
-//			//pView->SwReset();
-//			//pDoc->BtnStatus.EngAuto.Init = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			break;
-//		case _SigInx::_EngAutoInitCont:
-//			pView->EngAutoInitCont();
-//			break;
+		case _SigInx::_EngAutoInit:
+			//m_bRcvSig[_SigInx::_EngAutoInit] = TRUE;
+			//pDoc->BtnStatus.EngAuto.Init = TRUE;
+			pDoc->BtnStatus.EngAuto.Init = (SockData.nData1 > 0) ? TRUE : FALSE;
+			pView->EngAutoInit();
+			//pView->SwReset();
+			//pDoc->BtnStatus.EngAuto.Init = (SockData.nData1 > 0) ? TRUE : FALSE;
+			break;
+		case _SigInx::_EngAutoInitCont:
+			pView->EngAutoInitCont();
+			break;
 		case _SigInx::_EngAutoSeqMkSt:
 			//m_bRcvSig[_SigInx::_EngAutoSeqMkSt] = TRUE;
 			if(!pView->m_bEngSt)
@@ -1688,40 +1688,40 @@ void CEngrave::GetSignalMyMsg(SOCKET_DATA SockData)
 	}
 }
 
-//void CEngrave::GetCurrentInfoSignal(SOCKET_DATA SockData)
-//{
-//	int nCmdCode = SockData.nCmdCode;
-//	int nMsgId = SockData.nMsgID;
-//	CString sVal;
-//
-//	if (nCmdCode == _SetSig)
-//	{
-//		switch (nMsgId)
-//		{
-//		case _SigInx::_GetCurrentInfoSignal:
-//			m_bRcvSig[_SigInx::_GetCurrentInfoSignal] = TRUE;
-//			pDoc->BtnStatus.EngAuto.GetCurrentInfoSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			//pView->m_bRcvSig[SockData.nData1] = TRUE;
-//			//pView->m_bRcvSig[_SigInx::_GetCurrentInfoSignal] = TRUE;
-//			break;
-//		case _SigInx::_GetMonDispMainSignal:
-//			m_bRcvSig[_SigInx::_GetMonDispMainSignal] = TRUE;
-//			pDoc->BtnStatus.EngAuto.GetMonDispMainSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			//pView->m_bRcvSig[_SigInx::_GetMonDispMainSignal] = TRUE;
-//			break;
-//			// Is
-//		case _SigInx::_IsGetCurrentInfoSignal:
-//			//m_bRcvSig[_SigInx::_IsGetCurrentInfoSignal] = TRUE;
-//			pDoc->BtnStatus.EngAuto.IsGetCurrentInfoSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			break;
-//		case _SigInx::_IsGetMonDispMainSignal:
-//			//m_bRcvSig[_SigInx::_IsGetMonDispMainSignal] = TRUE;
-//			pDoc->BtnStatus.EngAuto.IsGetMonDispMainSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			pView->m_bTIM_CHK_RCV_MON_DISP_MAIN_SIG = FALSE;
-//			break;
-//		}
-//	}
-//}
+void CEngrave::GetCurrentInfoSignal(SOCKET_DATA SockData)
+{
+	int nCmdCode = SockData.nCmdCode;
+	int nMsgId = SockData.nMsgID;
+	CString sVal;
+
+	if (nCmdCode == _SetSig)
+	{
+		switch (nMsgId)
+		{
+		case _SigInx::_GetCurrentInfoSignal:
+			m_bRcvSig[_SigInx::_GetCurrentInfoSignal] = TRUE;
+			pDoc->BtnStatus.EngAuto.GetCurrentInfoSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
+			//pView->m_bRcvSig[SockData.nData1] = TRUE;
+			//pView->m_bRcvSig[_SigInx::_GetCurrentInfoSignal] = TRUE;
+			break;
+		case _SigInx::_GetMonDispMainSignal:
+			m_bRcvSig[_SigInx::_GetMonDispMainSignal] = TRUE;
+			pDoc->BtnStatus.EngAuto.GetMonDispMainSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
+			//pView->m_bRcvSig[_SigInx::_GetMonDispMainSignal] = TRUE;
+			break;
+			// Is
+		case _SigInx::_IsGetCurrentInfoSignal:
+			//m_bRcvSig[_SigInx::_IsGetCurrentInfoSignal] = TRUE;
+			pDoc->BtnStatus.EngAuto.IsGetCurrentInfoSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
+			break;
+		case _SigInx::_IsGetMonDispMainSignal:
+			//m_bRcvSig[_SigInx::_IsGetMonDispMainSignal] = TRUE;
+			pDoc->BtnStatus.EngAuto.IsGetMonDispMainSignal = (SockData.nData1 > 0) ? TRUE : FALSE;
+			pView->m_bTIM_CHK_RCV_MON_DISP_MAIN_SIG = FALSE;
+			break;
+		}
+	}
+}
 
 // Start for GetSysData()
 
@@ -1744,7 +1744,7 @@ void CEngrave::GetSysData(SOCKET_DATA SockData)
 	//GetMkInfoLf(SockData);
 	//GetMkInfoRt(SockData);
 	//GetAlarmMsg(SockData);
-	//GetMsgBox(SockData);
+	GetMsgBox(SockData);
 }
 
 void CEngrave::GetOpInfo(SOCKET_DATA SockData)
@@ -2161,8 +2161,11 @@ void CEngrave::GetInfo(SOCKET_DATA SockData)
 			if (pDoc->WorkingInfo.LastJob.sModelUp != CharToString(SockData.strData))
 			{
 				m_bGetInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sModelUp = CharToString(SockData.strData);
-				//pView->m_bLoadMstInfo = TRUE;
+				if (pDoc->GetTestMode() == MODE_NONE)
+				{
+					pDoc->WorkingInfo.LastJob.sModelUp = CharToString(SockData.strData);
+					pView->m_bLoadMstInfo = TRUE;
+				}
 			}
 			break;
 		//case _ItemInx::_ModelDnName:
@@ -2177,26 +2180,31 @@ void CEngrave::GetInfo(SOCKET_DATA SockData)
 			if (pDoc->WorkingInfo.LastJob.sLotUp != CharToString(SockData.strData))
 			{
 				m_bGetInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sLotUp = CharToString(SockData.strData);
+				if (pDoc->GetTestMode() == MODE_NONE)
+					pDoc->WorkingInfo.LastJob.sLotUp = CharToString(SockData.strData);
 			}
 			break;
 		case _ItemInx::_LotDnName:
 			if (pDoc->WorkingInfo.LastJob.sLotDn != CharToString(SockData.strData))
 			{
 				m_bGetInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sLotDn = CharToString(SockData.strData);
+				if (pDoc->GetTestMode() == MODE_NONE)
+					pDoc->WorkingInfo.LastJob.sLotDn = CharToString(SockData.strData);
 			}
 			break;
 		case _ItemInx::_LayerUpName:
 			if (pDoc->WorkingInfo.LastJob.sLayerUp != CharToString(SockData.strData))
 			{
 				m_bGetInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sLayerUp = CharToString(SockData.strData);
-				if (!pDoc->WorkingInfo.LastJob.bDualTest)
+				if (pDoc->GetTestMode() == MODE_NONE)
 				{
-					pView->m_bLoadMstInfo = TRUE;
-					pDoc->m_bLoadMstInfo[0] = TRUE;
-					pDoc->m_bLoadMstInfo[1] = TRUE;
+					pDoc->WorkingInfo.LastJob.sLayerUp = CharToString(SockData.strData);
+					if (!pDoc->WorkingInfo.LastJob.bDualTest)
+					{
+						pView->m_bLoadMstInfo = TRUE;
+						pDoc->m_bLoadMstInfo[0] = TRUE;
+						pDoc->m_bLoadMstInfo[1] = TRUE;
+					}
 				}
 			}
 			break;
@@ -2204,12 +2212,15 @@ void CEngrave::GetInfo(SOCKET_DATA SockData)
 			if (pDoc->WorkingInfo.LastJob.sLayerDn != CharToString(SockData.strData))
 			{
 				m_bGetInfo = TRUE;
-				pDoc->WorkingInfo.LastJob.sLayerDn = CharToString(SockData.strData);
-				if (pDoc->WorkingInfo.LastJob.bDualTest)
+				if (pDoc->GetTestMode() == MODE_NONE)
 				{
-					pView->m_bLoadMstInfo = TRUE;
-					pDoc->m_bLoadMstInfo[0] = TRUE;
-					pDoc->m_bLoadMstInfo[1] = TRUE;
+					pDoc->WorkingInfo.LastJob.sLayerDn = CharToString(SockData.strData);
+					if (pDoc->WorkingInfo.LastJob.bDualTest)
+					{
+						pView->m_bLoadMstInfo = TRUE;
+						pDoc->m_bLoadMstInfo[0] = TRUE;
+						pDoc->m_bLoadMstInfo[1] = TRUE;
+					}
 				}
 			}
 			break;
@@ -3327,33 +3338,34 @@ void CEngrave::GetInfo(SOCKET_DATA SockData)
 //	}
 //}
 
-//void CEngrave::GetMsgBox(SOCKET_DATA SockData)
-//{
-//	int nCmdCode = SockData.nCmdCode;
-//	int nMsgId = SockData.nMsgID;
-//	CString sVal;
-//
-//	if (nCmdCode == _SetData)
-//	{
-//		switch (nMsgId)
-//		{
-//		case _stMsgBoxInx::_MsgBox:
-//			pDoc->m_sMsgBox = CharToString(SockData.strData);
-//			pDoc->m_nTypeMsgBox = SockData.nData1;
-//			sVal = SockData.strData;
-//			if (!sVal.IsEmpty())
-//			{
-//				pDoc->m_sMsgBox = sVal;
-//				pView->CycleStop();
-//			}
-//			//IsSetMsgBox(pDoc->m_sMsgBox);
-//			break;
-//		case _stMsgBoxInx::_IsMsgBox:
-//			pDoc->m_sIsMsgBox = CharToString(SockData.strData);
-//			break;
-//		}
-//	}
-//}
+void CEngrave::GetMsgBox(SOCKET_DATA SockData)
+{
+	int nCmdCode = SockData.nCmdCode;
+	int nMsgId = SockData.nMsgID;
+	CString sVal;
+
+	if (nCmdCode == _SetData)
+	{
+		switch (nMsgId)
+		{
+		case _stMsgBoxInx::_MsgBox:
+			pDoc->m_sMsgBox = CharToString(SockData.strData);
+			pDoc->m_nTypeMsgBox = SockData.nData1;
+			sVal = SockData.strData;
+			if (!sVal.IsEmpty())
+			{
+				pDoc->m_sMsgBox = sVal;
+				pView->CycleStop();
+			}
+			//IsSetMsgBox(pDoc->m_sMsgBox);
+			break;
+		case _stMsgBoxInx::_IsMsgBox:
+			pDoc->m_sIsMsgBox = CharToString(SockData.strData);
+			break;
+		}
+	}
+}
+
 // End for GetSysData()
 
 // Start for SetSysSignal()
@@ -9570,23 +9582,23 @@ void CEngrave::Set2DOffsetInitPosMove(BOOL bOn)
 	m_bSendSig[_SigInx::_2DOffsetInitPosMove] = TRUE;
 }
 
-//void CEngrave::GetSignal2dEng(SOCKET_DATA SockData)
-//{
-//	int nCmdCode = SockData.nCmdCode;
-//	int nMsgId = SockData.nMsgID;
-//	CString sVal;
-//
-//	if (nCmdCode == _SetSig)
-//	{
-//		switch (nMsgId)
-//		{
-//		case _SigInx::_2DOffsetInitPosMove:
-//			//m_bRcvSig[_SigInx::_2DOffsetInitPosMove] = TRUE;
-//			pDoc->BtnStatus.SettingEng.OffsetInitPosMove = (SockData.nData1 > 0) ? TRUE : FALSE;
-//			break;
-//		}
-//	}
-//}
+void CEngrave::GetSignal2dEng(SOCKET_DATA SockData)
+{
+	int nCmdCode = SockData.nCmdCode;
+	int nMsgId = SockData.nMsgID;
+	CString sVal;
+
+	if (nCmdCode == _SetSig)
+	{
+		switch (nMsgId)
+		{
+		case _SigInx::_2DOffsetInitPosMove:
+			//m_bRcvSig[_SigInx::_2DOffsetInitPosMove] = TRUE;
+			pDoc->BtnStatus.SettingEng.OffsetInitPosMove = (SockData.nData1 > 0) ? TRUE : FALSE;
+			break;
+		}
+	}
+}
 
 
 void CEngrave::SetBuzzer(BOOL bOn, int nCh)

@@ -1291,6 +1291,13 @@ void CDlgInfo::OnBtnExit()
 	if (pView->m_pDlgMenu01)
 		pView->m_pDlgMenu01->UpdateData();
 
+#ifdef USE_ENGRAVE
+	if (pView && pView->m_pEngrave)
+	{
+		pView->m_pEngrave->SetTestMode();	//_ItemInx::_TestMode
+	}
+#endif
+
 	OnOK();
 }
 
@@ -1447,6 +1454,11 @@ void CDlgInfo::SetTestMode(int nMode)
 			pView->m_pDlgMenu01->EnableItsMode(FALSE);
 		break;
 	}
+
+	if (pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))
+		myBtn[27].SetCheck(TRUE);
+	else
+		myBtn[27].SetCheck(FALSE);
 
 	myBtn[23].RedrawWindow();
 	myBtn[24].RedrawWindow();
@@ -2062,9 +2074,11 @@ void CDlgInfo::ChkUse3layer()
 	{
 		pDoc->WorkingInfo.System.bUse3Layer = TRUE;
 
-		myBtn[25].SetCheck(FALSE);
+		if (myBtn[25].IsWindowVisible())
+			myBtn[25].SetCheck(FALSE);
 		pDoc->WorkingInfo.System.bUseDualIts = FALSE;
-		myBtn[30].SetCheck(FALSE);
+		if (myBtn[26].IsWindowVisible())
+			myBtn[26].SetCheck(FALSE);
 		pDoc->WorkingInfo.System.bUseDual2dIts = FALSE;
 
 		sData = pDoc->WorkingInfo.System.bUseDualIts ? _T("1") : _T("0");

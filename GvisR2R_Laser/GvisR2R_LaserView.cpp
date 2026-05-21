@@ -7875,7 +7875,9 @@ void CGvisR2R_LaserView::DoAuto2dReading()
 {
 	if (MODE_INNER == pDoc->WorkingInfo.LastJob.nTestMode || MODE_LASER == pDoc->WorkingInfo.LastJob.nTestMode)// || MODE_OUTER == pDoc->WorkingInfo.LastJob.nTestMode)
 	{
-		Eng2dRead();
+		BOOL bIs3LayerInner = pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp);
+		if(!bIs3LayerInner)
+			Eng2dRead();
 	}
 }
 
@@ -7883,7 +7885,9 @@ void CGvisR2R_LaserView::DoAutoMarking()
 {
 	if (MODE_INNER == pDoc->WorkingInfo.LastJob.nTestMode || MODE_LASER == pDoc->WorkingInfo.LastJob.nTestMode)
 	{
-		MarkingWith1PointAlign();
+		BOOL bIs3LayerInner = pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp);
+		if (!bIs3LayerInner)
+			MarkingWith1PointAlign();
 	}
 }
 
