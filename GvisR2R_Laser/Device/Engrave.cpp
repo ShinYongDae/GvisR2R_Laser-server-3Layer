@@ -1580,19 +1580,19 @@ void CEngrave::GetSignalEngraveAutoSequence(SOCKET_DATA SockData)
 			pDoc->BtnStatus.EngAuto.FdDone = TRUE;
 			//pDoc->BtnStatus.EngAuto.Read2dDone = (SockData.nData1 > 0) ? TRUE : FALSE;
 			break;
-//		case _SigInx::_UpdateWork:
-//			//m_bRcvSig[_SigInx::_UpdateWork] = TRUE;
-//			pView->GetMkMenu01();
-//			break;
-//		case _SigInx::_DispDefImg:
-//			//m_bRcvSig[_SigInx::_DispDefImg] = TRUE;
-//			if (!pView->m_bTHREAD_DISP_DEF)
-//			{
-//				pView->m_nStepTHREAD_DISP_DEF = 0;
-//				pView->m_bTHREAD_DISP_DEF = TRUE;
-//				//pView->UpdateLotTime();
-//			}
-//			break;
+		case _SigInx::_UpdateWork:
+			//m_bRcvSig[_SigInx::_UpdateWork] = TRUE;
+			pView->GetMkMenu01();
+			break;
+		case _SigInx::_DispDefImg:
+			//m_bRcvSig[_SigInx::_DispDefImg] = TRUE;
+			if (!pView->m_bTHREAD_DISP_DEF)
+			{
+				pView->m_nStepTHREAD_DISP_DEF = 0;
+				pView->m_bTHREAD_DISP_DEF = TRUE;
+				//pView->UpdateLotTime();
+			}
+			break;
 //		case _SigInx::_JobEnd:
 //			pView->m_bJobEnd = TRUE;
 //			break;
@@ -1743,7 +1743,7 @@ void CEngrave::GetSysData(SOCKET_DATA SockData)
 	//GetMkInfo(SockData);
 	//GetMkInfoLf(SockData);
 	//GetMkInfoRt(SockData);
-	//GetAlarmMsg(SockData);
+	GetAlarmMsg(SockData);
 	GetMsgBox(SockData);
 }
 
@@ -2104,22 +2104,22 @@ void CEngrave::GetOpInfo(SOCKET_DATA SockData)
 			}
 			break;
 		case _ItemInx::_EngItsUpCode:
-			//if (pDoc->WorkingInfo.LastJob.sEngItsUpCode != CharToString(SockData.strData))
-			//{
-			//	m_bGetOpInfo = TRUE;
-			//	pDoc->WorkingInfo.LastJob.sEngItsUpCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
-			//	pDoc->SetEngItsUpCode(pDoc->WorkingInfo.LastJob.sEngItsUpCode);
-			//	//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
-			//}
+			if (pDoc->WorkingInfo.LastJob.sEngItsUpCode != CharToString(SockData.strData))
+			{
+				m_bGetOpInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sEngItsUpCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
+				pDoc->SetEngItsUpCode(pDoc->WorkingInfo.LastJob.sEngItsUpCode);
+				//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
+			}
 			break;
 		case _ItemInx::_EngItsDnCode:
-			//if (pDoc->WorkingInfo.LastJob.sEngItsDnCode != CharToString(SockData.strData))
-			//{
-			//	m_bGetOpInfo = TRUE;
-			//	pDoc->WorkingInfo.LastJob.sEngItsDnCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
-			//	pDoc->SetEngItsDnCode(pDoc->WorkingInfo.LastJob.sEngItsDnCode);
-			//	//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
-			//}
+			if (pDoc->WorkingInfo.LastJob.sEngItsDnCode != CharToString(SockData.strData))
+			{
+				m_bGetOpInfo = TRUE;
+				pDoc->WorkingInfo.LastJob.sEngItsDnCode = CharToString(SockData.strData);//pDoc->m_sItsCode = pDoc->m_sOrderNum = 
+				pDoc->SetEngItsDnCode(pDoc->WorkingInfo.LastJob.sEngItsDnCode);
+				//::WritePrivateProfileString(_T("Last Job"), _T("Engrave Order Num"), pDoc->WorkingInfo.LastJob.sEngOrderNum, PATH_WORKING_INFO);
+			}
 			break;
 		}
 	}
@@ -3317,26 +3317,27 @@ void CEngrave::GetInfo(SOCKET_DATA SockData)
 //	}
 //}
 
-//void CEngrave::GetAlarmMsg(SOCKET_DATA SockData)
-//{
-//	int nCmdCode = SockData.nCmdCode;
-//	int nMsgId = SockData.nMsgID;
-//	CString sVal;
-//
-//	if (nCmdCode == _SetData)
-//	{
-//		switch (nMsgId)
-//		{
-//		case _stAlarmInx::_Alarm:
-//			pDoc->m_sAlmMsg = CharToString(SockData.strData);
-//			IsSetAlarm(pDoc->m_sAlmMsg);
-//			break;
-//		case _stAlarmInx::_IsAlarm:
-//			;
-//			break;
-//		}
-//	}
-//}
+void CEngrave::GetAlarmMsg(SOCKET_DATA SockData)
+{
+	int nCmdCode = SockData.nCmdCode;
+	int nMsgId = SockData.nMsgID;
+	CString sVal;
+
+	if (nCmdCode == _SetData)
+	{
+		switch (nMsgId)
+		{
+		case _stAlarmInx::_Alarm:
+			pDoc->m_sAlmMsg = CharToString(SockData.strData);
+			pView->CycleStop();
+			//IsSetAlarm(pDoc->m_sAlmMsg);
+			break;
+		case _stAlarmInx::_IsAlarm:
+			;
+			break;
+		}
+	}
+}
 
 void CEngrave::GetMsgBox(SOCKET_DATA SockData)
 {

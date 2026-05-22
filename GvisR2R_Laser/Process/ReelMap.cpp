@@ -1312,18 +1312,18 @@ BOOL CReelMap::Disp(int nMkPnl, BOOL bDumy)
 		}
 		else
 		{
-			if(pDoc->WorkingInfo.LastJob.bLotSep && nLoadPnl > pDoc->m_nLotLastShot && !pDoc->m_bDoneChgLot)
-			{
-				m_pPnlNum[k] = 0;
-				m_pPnlDefNum[k] = -1;
-				break;
-			}
-			else if (nLoadPnl > pDoc->m_nBufLastShot)			//else if (nLoadPnl > pDoc->m_ListBuf[0].GetLast())
-			{
-				m_pPnlNum[k] = 0;
-				m_pPnlDefNum[k] = -1;
-				break;
-			}
+			//if(pDoc->WorkingInfo.LastJob.bLotSep && nLoadPnl > pDoc->m_nLotLastShot && !pDoc->m_bDoneChgLot)
+			//{
+			//	m_pPnlNum[k] = 0;
+			//	m_pPnlDefNum[k] = -1;
+			//	break;
+			//}
+			//else if (nLoadPnl > pDoc->m_nBufLastShot)			//else if (nLoadPnl > pDoc->m_ListBuf[0].GetLast())
+			//{
+			//	m_pPnlNum[k] = 0;
+			//	m_pPnlDefNum[k] = -1;
+			//	break;
+			//}
 
 			m_pPnlNum[k] = nLoadPnl; // 3 ~ 10
 			//if (nLoadPnl <= pView->m_nLotEndSerial || pView->m_nLotEndSerial == 0)
@@ -1343,54 +1343,59 @@ BOOL CReelMap::Disp(int nMkPnl, BOOL bDumy)
 				m_pPnlDefNum[k] = _ttoi(szData);
 			else
 			{
-				if (!pView->m_bLastProc && !pDoc->WorkingInfo.LastJob.bSampleTest)
-				{
-					{
-						m_pPnlNum[k] = -1;
-						m_pPnlDefNum[k] = -1;
-						for (i = 0; i < nTotPcs; i++)
-							pPcsDef[k][i] = DEF_NONE;
-					}
-				}
-				else
-				{
-					m_pPnlNum[k] = 0;
-					m_pPnlDefNum[k] = -1;
+				m_pPnlNum[k] = -1;
+				m_pPnlDefNum[k] = -1;
+				for (i = 0; i < nTotPcs; i++)
+					pPcsDef[k][i] = DEF_NONE;
+				continue;
+				//if (!pView->m_bLastProc && !pDoc->WorkingInfo.LastJob.bSampleTest)
+				//{
+				//	{
+				//		m_pPnlNum[k] = -1;
+				//		m_pPnlDefNum[k] = -1;
+				//		for (i = 0; i < nTotPcs; i++)
+				//			pPcsDef[k][i] = DEF_NONE;
+				//	}
+				//}
+				//else
+				//{
+				//	m_pPnlNum[k] = 0;
+				//	m_pPnlDefNum[k] = -1;
 
-					for (nC = 0; nC < nNodeY; nC++)
-					{
-						if (nR % 2)	// 홀수.
-							nP = nC + nNodeY * nR;
-						else		// 짝수.				
-							nP = nNodeY * (nR + 1) - (nC + 1);
+				//	for (nC = 0; nC < nNodeY; nC++)
+				//	{
+				//		if (nR % 2)	// 홀수.
+				//			nP = nC + nNodeY * nR;
+				//		else		// 짝수.				
+				//			nP = nNodeY * (nR + 1) - (nC + 1);
 
-						if (pDoc->WorkingInfo.System.bStripPcsRgnBin)	// DTS용
-						{
-							switch (pDoc->m_Master[1].MasterInfo.nActionCode)	// 0 : Rotation / Mirror 적용 없음(CAM Data 원본), 1 : 좌우 미러, 2 : 상하 미러, 3 : 180 회전, 4 : 270 회전(CCW), 5 : 90 회전(CW)
-							{
-							case 0:
-								break;
-							case 1:
-								nP = pDoc->MirrorLR(nP);
-								break;
-							case 2:
-								nP = pDoc->MirrorUD(nP);
-								break;
-							case 3:
-								nP = pDoc->Rotate180(nP);
-								break;
-							default:
-								break;
-							}
-						}
+				//		if (pDoc->WorkingInfo.System.bStripPcsRgnBin)	// DTS용
+				//		{
+				//			switch (pDoc->m_Master[1].MasterInfo.nActionCode)	// 0 : Rotation / Mirror 적용 없음(CAM Data 원본), 1 : 좌우 미러, 2 : 상하 미러, 3 : 180 회전, 4 : 270 회전(CCW), 5 : 90 회전(CW)
+				//			{
+				//			case 0:
+				//				break;
+				//			case 1:
+				//				nP = pDoc->MirrorLR(nP);
+				//				break;
+				//			case 2:
+				//				nP = pDoc->MirrorUD(nP);
+				//				break;
+				//			case 3:
+				//				nP = pDoc->Rotate180(nP);
+				//				break;
+				//			default:
+				//				break;
+				//			}
+				//		}
 
-						nDefCode = DEF_NONE;
-						pPcsDef[k][nP] = nDefCode; // k=7, nP = PcsIdx : 좌상단에서 nP 0이 시작하여 ZigZeg로 우하단으로 증가
-					}
+				//		nDefCode = DEF_NONE;
+				//		pPcsDef[k][nP] = nDefCode; // k=7, nP = PcsIdx : 좌상단에서 nP 0이 시작하여 ZigZeg로 우하단으로 증가
+				//	}
 
-				}
-				//return 0;
-				break;
+				//}
+				////return 0;
+				//break;
 			}
 
 			for(nR=0; nR<nNodeX; nR++)  // nR = 0 ~ 5
@@ -1916,7 +1921,7 @@ CString CReelMap::GetYieldPath(int nRmap)
 			str = _T("YieldDn.txt");
 				sPath.Format(_T("%s%s\\%s\\%s\\%s"), pDoc->WorkingInfo.System.sPathOldFile,
 					pDoc->WorkingInfo.LastJob.sModelUp,
-					pDoc->WorkingInfo.LastJob.sLotUp,
+					pDoc->WorkingInfo.LastJob.sLotDn,
 					pDoc->WorkingInfo.LastJob.sLayerDn,
 					str);
 			//if (pDoc->m_bDoneChgLot || !pDoc->m_bNewLotShare[1])
@@ -1944,7 +1949,7 @@ CString CReelMap::GetYieldPath(int nRmap)
 			str = _T("YieldAll.txt");
 				sPath.Format(_T("%s%s\\%s\\%s\\%s"), pDoc->WorkingInfo.System.sPathOldFile,
 					pDoc->WorkingInfo.LastJob.sModelUp,
-					pDoc->WorkingInfo.LastJob.sLotUp,
+					pDoc->WorkingInfo.LastJob.sLotDn,
 					pDoc->WorkingInfo.LastJob.sLayerDn,
 					str);
 		//if (pDoc->m_bDoneChgLot || !pDoc->m_bNewLotShare[1])
@@ -4069,7 +4074,7 @@ void CReelMap::RestoreReelmap()
 		{
 			sPath.Format(_T("%s%s\\%s\\%s\\%s"), pDoc->WorkingInfo.System.sPathOldFile,
 				pDoc->WorkingInfo.LastJob.sModelUp,
-				pDoc->WorkingInfo.LastJob.sLotUp,
+				pDoc->WorkingInfo.LastJob.sLotDn,
 				pDoc->WorkingInfo.LastJob.sLayerDn,
 				str);
 		}
@@ -4088,7 +4093,7 @@ void CReelMap::RestoreReelmap()
 		{
 			sPath.Format(_T("%s%s\\%s\\%s\\%s"), pDoc->WorkingInfo.System.sPathOldFile,
 				pDoc->WorkingInfo.LastJob.sModelUp,
-				pDoc->WorkingInfo.LastJob.sLotUp,
+				pDoc->WorkingInfo.LastJob.sLotDn,
 				pDoc->WorkingInfo.LastJob.sLayerDn,
 				str);
 		}
@@ -4148,7 +4153,7 @@ void CReelMap::RestoreReelmap()
 		str = _T("ReelMapDataIO.txt");
 		sPath.Format(_T("%s%s\\%s\\%s\\%s\\%s"), pDoc->WorkingInfo.System.sPathItsFile,
 			pDoc->WorkingInfo.LastJob.sModelUp, pDoc->WorkingInfo.LastJob.sEngItsDnCode,
-			pDoc->WorkingInfo.LastJob.sLotUp, pDoc->WorkingInfo.LastJob.sLayerDn,
+			pDoc->WorkingInfo.LastJob.sLotDn, pDoc->WorkingInfo.LastJob.sLayerDn,
 			str);
 		break;
 	case RMAP_ITS:

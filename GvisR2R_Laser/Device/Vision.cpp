@@ -1029,7 +1029,7 @@ void CVision::ShowDispCad(int nIdxMkInfo, int nSerial, int nLayer, int nIdxDef) 
 	{
 		sPath.Format(_T("%s%s\\%s\\%s\\CadImage\\%d\\%05d.tif"), pDoc->WorkingInfo.System.sPathOldFile,
 			pDoc->WorkingInfo.LastJob.sModelUp,
-			pDoc->WorkingInfo.LastJob.sLotUp,
+			pDoc->WorkingInfo.LastJob.sLotDn,
 			pDoc->WorkingInfo.LastJob.sLayerDn,
 			nSerial,
 			nIdxDef);
@@ -2491,7 +2491,7 @@ void CVision::ShowDispDef(int nIdxMkInfo, int nSerial, int nLayer, int nDefPcs) 
 			{
 				sPath.Format(_T("%s%s\\%s\\%s\\DefImage\\%d\\%05d.tif"), pDoc->WorkingInfo.System.sPathOldFile,
 					pDoc->WorkingInfo.LastJob.sModelUp,
-					pDoc->WorkingInfo.LastJob.sLotUp,
+					pDoc->WorkingInfo.LastJob.sLotDn,
 					pDoc->WorkingInfo.LastJob.sLayerDn,
 					nSerial,
 					nDefPcs);

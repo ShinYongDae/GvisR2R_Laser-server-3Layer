@@ -132,7 +132,7 @@ BEGIN
     DEFPUSHBUTTON   "확인",IDOK,113,40,50,14,WS_GROUP
     LTEXT           "3Layer 개발",IDC_STATIC,7,37,104,8
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
-    LTEXT           "Its code 네트웤입력 차단",IDC_STATIC,7,46,104,8
+    LTEXT           "Modify GetAlarmMsg()",IDC_STATIC,7,46,104,8
 END
 
 IDD_GVISR2R_LASER_FORM DIALOGEX 0, 0, 723, 645

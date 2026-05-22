@@ -6502,7 +6502,7 @@ void CGvisR2R_LaserView::DispDefImg()
 		break;
 
 	case 11:
-		if (IsDoneDispMkInfo() && IsRun())	 // Check 불량이미지(우) Display End
+		if (IsDoneDispMkInfo() /*&& IsRun()*/)	 // Check 불량이미지(우) Display End
 			m_nStepTHREAD_DISP_DEF++;
 		break;
 	case 12:
@@ -7313,7 +7313,7 @@ BOOL CGvisR2R_LaserView::RemakeReelmap()
 		str = _T("ReelMapDataDn.txt");
 		sReelmapSrc.Format(_T("%s%s\\%s\\%s\\%s"), pDoc->WorkingInfo.System.sPathOldFile,
 			pDoc->WorkingInfo.LastJob.sModelUp,
-			pDoc->WorkingInfo.LastJob.sLotUp,
+			pDoc->WorkingInfo.LastJob.sLotDn,
 			pDoc->WorkingInfo.LastJob.sLayerDn,
 			str);
 		if (pDoc->m_pReelMapDn)
@@ -8801,7 +8801,7 @@ CString CGvisR2R_LaserView::GetMkDispInfoDn(CString sMenu, CString sItem, int nS
 	CString sPath;
 	sPath.Format(_T("%s%s\\%s\\%s\\DefImage\\%d\\Disp.txt"), pDoc->WorkingInfo.System.sPathOldFile,
 		pDoc->WorkingInfo.LastJob.sModelUp,
-		pDoc->WorkingInfo.LastJob.sLotUp,
+		pDoc->WorkingInfo.LastJob.sLotDn,
 		pDoc->WorkingInfo.LastJob.sLayerDn,
 		nSerial);
 

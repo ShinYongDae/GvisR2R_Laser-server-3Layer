@@ -113,7 +113,7 @@ public:
 	//void GetMkInfo(SOCKET_DATA SockData);
 	//void GetMkInfoLf(SOCKET_DATA SockData);
 	//void GetMkInfoRt(SOCKET_DATA SockData);
-	//void GetAlarmMsg(SOCKET_DATA SockData);
+	void GetAlarmMsg(SOCKET_DATA SockData);
 	void GetMsgBox(SOCKET_DATA SockData);
 
 	// SetSysSignal
