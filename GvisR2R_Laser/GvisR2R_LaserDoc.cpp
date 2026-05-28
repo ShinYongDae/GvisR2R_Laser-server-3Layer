@@ -8572,7 +8572,7 @@ void CGvisR2R_LaserDoc::GetMkMenu01()
 		pDoc->WorkingInfo.LastJob.sSelUserName = pDoc->Menu01Status.Info.sOperator = CString(szData);
 	if (0 < ::GetPrivateProfileString(_T("Info"), _T("Model"), NULL, szData, sizeof(szData), sPath))
 		pDoc->Menu01Status.Info.sModel = CString(szData);
-	if (0 < ::GetPrivateProfileString(_T("Info"), _T("Lot"), NULL, szData, sizeof(szData), sPath))
+	if (0 < ::GetPrivateProfileString(_T("Info"), _T("LotUp"), NULL, szData, sizeof(szData), sPath))
 		pDoc->WorkingInfo.LastJob.sLotUp = pDoc->Menu01Status.Info.sLot = CString(szData);
 	if (0 < ::GetPrivateProfileString(_T("Info"), _T("LayerUp"), NULL, szData, sizeof(szData), sPath))
 		pDoc->Menu01Status.Info.sLayerUp = CString(szData);
