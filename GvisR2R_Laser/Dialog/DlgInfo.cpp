@@ -1455,7 +1455,7 @@ void CDlgInfo::SetTestMode(int nMode)
 		break;
 	}
 
-	if (pDoc->Is3LayerInner(pDoc->WorkingInfo.LastJob.sModelUp))
+	if (pDoc->Is3Layer(pDoc->WorkingInfo.LastJob.sModelUp) && (nMode == MODE_INNER || nMode == MODE_OUTER))
 		myBtn[27].SetCheck(TRUE);
 	else
 		myBtn[27].SetCheck(FALSE);
